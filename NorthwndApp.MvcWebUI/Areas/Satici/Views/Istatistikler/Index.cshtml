@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+
+<head>
+    <style type="text/css">
+        #loading {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            opacity: 0.7;
+            background-color: #000;
+            z-index: 99999;
+        }
+
+        .buyukHarf {
+            text-transform: uppercase;
+        }
+
+        .kucukHarf {
+            text-transform: lowercase;
+        }
+
+        .ilkHarfBuyuk {
+            text-transform: capitalize;
+        }
+
+        .gizle {
+            display: none;
+        }
+
+        .rb-box {
+            width: 100%;
+           
+            max-width: 80%;
+            margin: 50px auto;
+            padding: 1.3em;
+            background: white;
+            color: #212121;
+            
+            border-radius: .75em;
+            -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            box-shadow: 0 2px 2px rgba(255, 206, 71,.1), 0 0px 5px #212121, 0 0px 4px rgba(255, 206, 71,.0), 0 5px 20px #212121, 0 15px 50px #212121, inset 0 0 15px rgba(255, 206, 71,.05);
+        }
+
+        .rb-boxsari {
+            width: 90%;
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 1.3em;
+            background: #ffff;
+            border-radius: .75em;
+            -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            box-shadow: 0 2px 2px rgba(255, 206, 71,.1), 0 0px 5px rgba(255, 206, 71,.5), 0 0px 4px rgba(255, 206, 71,.0), 0 5px 20px rgba(255, 206, 71,.90), 0 15px 50px rgba(255, 206, 71,.75), inset 0 0 15px rgba(255, 206, 71,.05);
+        }
+        .rb-boxred {
+            width: 100%;
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 1.3em;
+            background: #ffff;
+            border-radius: .75em;
+            -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            box-shadow: 0 2px 2px rgba(255, 206, 71,.1), 0 0px 5px rgba(220, 53, 69,.5), 0 0px 4px rgba(255, 206, 71,.0), 0 5px 20px rgba(240, 13, 69,.5), 0 15px 50px rgba(240, 11, 21,.5), inset 0 0 15px rgba(255, 206, 71,.05);
+        }
+
+        .rb-boxyesil{
+            width: 100%;
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 1.3em;
+            background: #ffff;
+            border-radius: .75em;
+            -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            box-shadow: 0 2px 2px rgba(255, 206, 71,.1), 0 0px 5px rgba(40, 167, 69,.5), 0 0px 4px rgba(255, 206, 71,.0), 0 5px 20px rgba(34, 140,58,.5), 0 15px 50px rgba(50,209,86,.5), inset 0 0 15px rgba(255, 206, 71,.05);
+        }
+
+        .rb-boxmavi {
+            width: 100%;
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 1.3em;
+            background: #ffff;
+            border-radius: .75em;
+            -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+            box-shadow: 0 2px 2px rgba(255, 206, 71,.1), 0 0px 5px rgba(23,162,184,.5), 0 0px 4px rgba(255, 206, 71,.0), 0 5px 20px rgba(28,195,222,.5), 0 15px 50px rgba(32,222,252,.5), inset 0 0 15px rgba(255, 206, 71,.05);
+        }
+
+        .b-example-divider {
+            height: 3rem;
+            background-color: #F9D340;
+            color: #F9D340;
+        }
+
+        .b-example-divider {
+            background-color: #212121;
+            color: #F9D340;
+        }
+
+        .buttonort {
+            padding: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .deneme {
+            width: 100%;
+        }
+        .grafik{
+           background: rgba(23,162,184,.5);
+        }
+    </style>
+
+
+</head>
+
+  
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+               <h1 class="m-0"style="color:#212121" >İstatistikler</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/Satici/Siparis/Index">Siparişler</a></li>
+                   <li class="breadcrumb-item active">İstatistikler</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    
+   
+    <section class="content">
+
+            <div class="row col-lg-12">
+              <div class="col-lg-3 col-6 ">
+              
+                    <div class="small-box bg-info rb-boxmavi">
+                  <div class="inner">
+                    <h3>150</h3>
+          
+                            <p>Aylık Toplam Siparişler</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-bag"></i>
+                  </div>
+                <a href="#" class="small-box-footer" style="color:white">İncele <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+
+
+            
+              <div class="col-lg-3 col-6">
+               
+                    <div class="small-box bg-success rb-boxyesil">
+                  <div class="inner">
+                    <h3>53<sup style="font-size: 20px"></sup></h3>
+          
+                    <p>Faforilere Alanlar</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                  </div>
+                <a href="#" class="small-box-footer" style="color:white">İncele <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              
+
+              <div class="col-lg-3 col-6">
+                
+                <div class="small-box bg-warning rb-boxsari">
+                  <div class="inner">
+                    <h3>44</h3>
+          
+                    <p>Sepete Ekleyenler</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                  </div>
+                <a href="#" class="small-box-footer" style="color:white">İncele <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              
+              <div class="col-lg-3 col-6">
+                
+                    <div class="small-box bg-danger rb-boxred">
+                  <div class="inner">
+                    <h3>350</h3>
+          
+                            <p>Ürünlerini İnceleyen</p>
+                  </div>
+                  <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                  </div>
+                <a href="#" class="small-box-footer" style="color:white">İncele <i class="fas fa-arrow-circle-right"></i></a>
+                </div>
+              </div>
+              
+            </div>
+
+         <div class="col-lg-12 connectedSortable rb-box">
+
+           <div class="col-lg-12 card rb-box ">
+              <div class="card-header">
+                <h3 class="card-title" style="color:#212121">
+                    <i class="fas fa-chart-pie mr-1" style="color:#212121"></i>
+                  Aylık Kazanç Grafiği
+                </h3>
+                <div class="card-tools">
+                  <ul class="nav nav-pills ml-auto">
+                    <li class="nav-item">
+                            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Pasta</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="#sales-chart" data-toggle="tab">Sütun</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="tab-content p-0">
+
+
+
+
+
+
+                  
+
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="card-body">
+                            
+                          
+                                <div class="row">
+                                   
+                                    <div class="col-md-12">
+                                       
+
+                                        <div class="progress-group">
+                                            Sepete Ekleyenler
+                                            <span class="float-right"><b>160</b>/200</span>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-primary" style="width: 80%"></div>
+                                            </div>
+                                        </div>
+                                        <!-- /.progress-group -->
+
+                                        <div class="progress-group">
+                                            Ürünlerini İnceleyen
+                                            <span class="float-right"><b>310</b>/400</span>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-danger" style="width: 75%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- /.progress-group -->
+                                        <div class="progress-group">
+                                            <span class="progress-text">Faforilere Alanlar</span>
+                                            <span class="float-right"><b>480</b>/800</span>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar bg-success" style="width: 60%"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- /.progress-group -->
+                                        <div class="progress-group">
+                                            Aylık Toplam Siparişler
+                                            <span class="float-right"><b>250</b>/500</span>
+                                            <div class="progress progress-sm">
+                                                <div class="progress-bar grafik" style="width: 50%"></div>
+                                            </div>
+                                        </div>
+                                        <!-- /.progress-group -->
+                                    </div>
+                                    <!-- /.col -->
+                               
+                                <!-- /.row -->
+                            </div>
+                            <!-- ./card-body -->
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-sm-3 col-6">
+                                            <div class="description-block border-right" style="margin:auto">
+                                            <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                                            <h5 class="description-header">$35,210.43</h5>
+                                            
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-6">
+                                        <div class="description-block border-right">
+                                            <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                                            <h5 class="description-header">$10,390.90</h5>
+                                            
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-6">
+                                        <div class="description-block border-right">
+                                            <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                                            <h5 class="description-header">$24,813.53</h5>
+                                            
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                    <!-- /.col -->
+                                    <div class="col-sm-3 col-6">
+                                        <div class="description-block">
+                                            <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                                            <h5 class="description-header">1200</h5>
+                                           
+                                        </div>
+                                        <!-- /.description-block -->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </div>
+                            <!-- /.card-footer -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                  </div>
+                </div>
+              </div>
+
+
+        </div>
+
+
+
+          
+            <div class="col-lg-10" style="margin:auto">
+              <div class="card-header">
+                <h3 class="card-title" style="color:#212121">Müşteri Mesajları</h3>
+           
+                <div class="card-tools">
+                  <span title="3 New Messages" class="badge badge-primary">3</span>
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" title="Contacts" data-widget="chat-pane-toggle">
+                    <i class="fas fa-comments"></i>
+                  </button>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              </div>
+
+
+
+
+
+        <div class="card-body col-lg-10" style="margin:auto">
+                 <div class="direct-chat-messages">     
+                   <div class="direct-chat-msg">
+                       <div class="direct-chat-infos clearfix">
+                         <span class="direct-chat-name float-left buyukHarf">tugran tuysuz</span>
+                         <span class="direct-chat-timestamp float-right">27.11.2023</span>
+                       </div>
+
+                       <div class="direct-chat-infos clearfix">
+
+                            @Html.TextArea("Mesa", "", new { id = "txtMesaEdit",rows="3", cols="10",disabled = "disabled", placeholder = "", @class = "form-control"})
+
+                          <form action="#" method="post">
+                              <div class="input-group">
+                                  <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                                  <span class="input-group-append">
+                                      <button type="button" class="btn btn-primary">Send</button>
+                                  </span>
+                              </div>
+                          </form>
+                       </div>
+                   </div>
+                </div>
+              </div>
+       
+      
+     
+    </section>
+  
+
+          
+

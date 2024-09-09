@@ -1,0 +1,108 @@
+﻿@using NorthwndApp.Model.Entities
+@model List<Order>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   
+</head>
+
+<body>
+    
+
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a href="/Home/Index" class="breadcrumb-item text-dark" href="#">Anasayfa</a>
+                   
+                    <span class="breadcrumb-item active">Siparişler</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+    <!-- Cart Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-lg-12 table-responsive mb-5">
+                <table class="table table-light table-borderless table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Sipariş Numarası</th>
+                            <th>Sipariş İçeriği</th>
+                            <th>Sipariş Durumu</th>
+                            <th>Adet</th>
+                            <th>Fiyatı</th>
+                            <th>Detay</th>
+                            
+                        </tr>
+                    </thead>
+
+                  
+                        
+                   
+
+                    <tbody class="align-middle">
+                        @foreach (var orderlist in Model)
+                        {
+                        <tr>
+                                <td class="align-middle"><img alt="" style="width: 50px;">@orderlist.OrderID</td>
+
+                                <td class="align-middle"><img  alt="" style="width: 50px;">@orderlist.UrunAdi</td>
+
+
+
+                                <td class="align-middle">
+                                    @if (orderlist.SipOnay == true)
+                                    {
+                                        @if (orderlist.SipKargoverildi == true)
+                                        {
+                                            @if (orderlist.SipTeslimEdildi == true)
+                                            {
+                                                <label>Teslim Edildi</label>
+
+                                            }
+                                            else
+                                            {
+                                                <label>Yolda...</label>
+                                            }
+
+                                        }
+                                        else
+                                        {
+                                            <label>Kargo Hazırlanıyor...</label>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <label>Tedarikçi Onayı Bekleniyor...</label>
+                                    }
+                                </td>
+
+                            <td class="align-middle"><img  alt="" style="width: 50px;">@orderlist.Adet</td>
+
+                                <td class="align-middle"><img alt="" style="width: 50px;">@orderlist.Freight.ToString("C2")</td>
+
+                                <td><button id="btnDetay" type="button" class="btn btn-primary #ffd333 btn-block" OrderID="@orderlist.OrderID">İncele</button></td>
+                                    
+                                
+                           
+                        </tr>
+                        }
+                    </tbody>
+
+                  
+
+                </table>
+            </div>
+            
+        </div>
+    </div>
+
+</body>
+
+</html>

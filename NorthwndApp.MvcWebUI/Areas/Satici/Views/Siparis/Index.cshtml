@@ -1,0 +1,361 @@
+﻿@using NorthwndApp.Model.Entities
+@model List<Order>
+
+
+<!DOCTYPE html>
+<html lang="tr">
+   
+  <head>
+    <title>CSS Büyük-Küçük harf</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+             #loading {
+                position: fixed;
+                display: none;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                text-align: center;
+                opacity: 0.7;
+                background-color: #000;
+                z-index: 99999;
+            }
+        .buyukHarf {
+            text-transform: uppercase;
+        }
+
+        .kucukHarf {
+            text-transform: lowercase;
+        }
+
+        .ilkHarfBuyuk {
+            text-transform: capitalize;
+        }
+
+        .gizle {
+            display: none;
+        }
+        
+        .rb-box {
+    width: 80%;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 1.3em;
+    background: #ffff;
+    border-radius: .75em;
+    -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+    filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+    box-shadow:
+              0 2px 2px rgba(255, 206, 71,.1),
+          0 0px 5px rgba(255, 206, 71,.5),
+              0 0px 4px rgba(255, 206, 71,.0),
+              0 5px 20px rgba(255, 206, 71,.90),
+              0 15px 50px rgba(255, 206, 71,.75),
+          inset 0 0 15px rgba(255, 206, 71,.05);
+
+      }
+        .b-example-divider {
+        height: 3rem;
+                  background-color: #F9D340;
+             color: #F9D340;
+        }
+         .b-example-divider {
+           
+                      background-color: #212121;
+                 color: #F9D340;
+
+
+            }
+                .buttonort {
+            padding: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .deneme{
+          margin-left: 42%;
+          margin-top: 10%;    
+        }
+        .orta{
+               
+                     text-align: center;
+                    
+            }
+           
+              
+        
+    </style>
+
+    @section customStyles{
+        <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+        <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    }
+        @section customScripts{
+        <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+        <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+        <script>
+           
+
+            $(function () {
+                $(document).on("click", ".btnOnaylaEdit", function () {
+                    var OrderID = $(this).attr("OrderID");
+                   
+                    $.ajax({
+                        method: "get",
+                        dataType: "json",
+                        url: "/Satici/Siparis/Onay",
+                        data: { id: OrderID },
+                        success: function (response) {
+                            if (response.isSuccess) {
+
+                                Swal.fire({
+                                    title: 'İşlem Başarılı',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Tamam'
+                                                 
+                                }).then((result) => {
+                                        if (result.isConfirmed) {
+
+                                            window.location.reload();
+                                        }
+                                })
+                                    
+                                
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'İşlem Başarısız',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Tamam'
+                                    
+                                })
+
+                            }
+                        }
+                    });
+                });
+
+                $(document).on("click", ".btnKverildiEdit", function () {
+                    var OrderID = $(this).attr("OrderID");
+
+                    $.ajax({
+                        method: "get",
+                        dataType: "json",
+                        url: "/Satici/Siparis/Kverildi",
+                        data: { id: OrderID },
+                        success: function (response) {
+                            if (response.isSuccess) {
+
+                                Swal.fire({
+                                    title: 'İşlem Başarılı',
+                                    text: response.message,
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Tamam'
+                                   
+                                               
+                                }).then((result) => {
+                                        if (result.isConfirmed) {
+
+                                            window.location.reload();
+                                        }
+                                })
+                               
+                            }
+                            else {
+                                Swal.fire({
+                                    title: 'İşlem Başarısız',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Tamam'
+                                    
+                                })
+                            }
+                        }
+                    });
+                });
+            });
+          
+        </script>
+
+    }
+
+    </head>
+
+
+
+
+
+
+<body>
+    <div class="container-fluid">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+                            <h1>Sipariş Tablosu</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="/Satici/Urun/Index">Ürünlerim</a></li>
+              <li class="breadcrumb-item active">Siparişler</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+                @Html.Raw(ViewBag.Result)
+
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                                <h3 class="card-title">Siparişler </h3>
+                                <font size="2px" color="red">Müşterilerinize kaliteli hizmet sunmayı unutmayınız bu sizlere daha çok sipariş olarak dönüş yapacaktır... </font>
+              </div>
+
+
+                            @if (Model != null)
+                            {
+                                @foreach (var order in Model)
+                                {
+                                    if (ViewBag.supid == order.SuppliersID)
+                                    {
+                                        <div class="card-body p-0">
+                                            <table id="tblOrders" class="table table-hover">
+
+                                                <tbody>
+
+
+                                                    <tr data-widget="expandable-table" aria-expanded="true">
+                                                        <td>
+                                                            <i class="expandable-table-caret fas fa-caret-right fa-fw"></i>
+                                                            @order.OrderID
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="expandable-body">
+
+                                                        <td>
+
+                                                            <div class="p-0 orta">
+
+                                                                <table class="table table-hover orta">
+
+                                                                    <th style="width: 10%;">Ad Soyad</th>
+                                                                    <th style="width: 8%;">Tel No</th>
+                                                                    <th style="width: 7%;">Ülke</th>
+                                                                    <th style="width: 7%;">Şehir</th>
+                                                                    <th style="width: 30%;">Adres</th>
+                                                                    <th style="width: 5%;">Ürün Kodu</th>
+                                                                    <th style="width: 10%;">Ürün Adı</th>
+                                                                    <th style="width: 5%;">Adet</th>
+                                                                    <th style="width: 40%;"></th>
+                                                                    <th style="width: 5%;">Durum</th>
+
+                                                                    <tbody>
+                                                                        <tr data-widget="expandable-table" aria-expanded="false">
+
+
+
+                                                                            <td class="ilkHarfBuyuk">@order.MusAdi <h8 class=" buyukHarf">@order.MusSoyadi</h8></td>
+
+                                                                            <td>@order.MusTelefon</td>
+                                                                            <td class="ilkHarfBuyuk">@order.ShipCountry</td>
+                                                                            <td class="ilkHarfBuyuk">@order.ShipCity</td>
+                                                                            <td class="ilkHarfBuyuk">@order.ShipAddress</td>
+                                                                            <td>@order.ProductsID</td>
+                                                                            <td class="ilkHarfBuyuk">@order.UrunAdi</td>
+                                                                            <td>@order.Adet</td>
+                                                                            <td>
+                                                                                @if (order.SipOnay != true)
+                                                                                {
+                                                                                    <a OrderID="@order.OrderID" class="btn btn-warning btnOnaylaEdit">Onayla</a>
+                                                                                }
+                                                                                @if (order.SipKargoverildi != true && order.SipOnay == true && order.SipOnay != null)
+                                                                                {
+                                                                                    <a OrderID="@order.OrderID" class="btn btn-success btnKverildiEdit">K.Verildi</a>
+                                                                                }
+
+
+                                                                            </td>
+                                                                            <td class="orta">
+                                                                                @if (order.SipOnay == true)
+                                                                                {
+                                                                                    @if (order.SipKargoverildi == true)
+                                                                                    {
+                                                                                        @if (order.SipTeslimEdildi == true)
+                                                                                        {
+                                                                                            <label>Teslim Edildi</label>
+
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            <label>Yolda...</label>
+                                                                                        }
+
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        <label>Kargo Hazırlanıyor...</label>
+                                                                                    }
+
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <label>Onay Bekleniyor...</label>
+                                                                                }
+                                                                            </td>
+
+
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    }
+
+
+                                }
+                            }
+                   
+
+
+
+
+
+
+            </div> 
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  </body>
+  </html>
+
+

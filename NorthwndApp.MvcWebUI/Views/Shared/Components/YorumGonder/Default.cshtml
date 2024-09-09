@@ -1,0 +1,104 @@
+﻿@using NorthwndApp.MvcWebUI.Models
+@model UrunProductYorumViewModel
+
+
+
+<script>
+    $(document).ready(function () {
+        $("#btnKayit").click(function () {
+            var formModel =
+            {
+
+                //Mail: $("#txtMail").val(),
+                //ProductID: $("#txtProductID").val(),
+                Yorum: $("#txtYorum").val(),
+                //Mail: $("#txtMail").val(),
+                //Puan: $("#txtPuan").val(),
+
+
+
+            };
+
+            var ajaxOptions =
+            {
+                url: "/YorumGonder/YorumOnay",
+                method: "post",
+                dataType: "json",
+
+                data: { model: formModel },
+                success: function (response) {
+                    if (response.isSuccess == true) {
+                        $("#divMessage").html("<div class='alert alert-success'>" + response.message + "</div>");
+                        Swal.fire({
+                            title: 'Kaydınız Yapıldı',
+
+                            icon: 'success',
+                            confirmButtonColor: '#ffc107',
+                            confirmButtonText: 'Tamam'
+                        }).then((result) => {
+                            window.location.replace("/MusteriGiris/LogIn");
+                        });
+                    }
+                    else {
+                        $("#divMessage").html("<div class='alert alert-danger'>" + response.message + "</div>");
+                    }
+                }
+            }
+
+
+
+
+
+            $.ajax(ajaxOptions);
+        });
+    });
+</script>
+
+
+
+
+
+<!--Yorum Yapma baslangic-->
+
+<div class="col-md-5 rb-box">
+    <h4 class="mb-4">İnceleme bırak  için </h4>
+
+    <small>E-posta hesabınız yayımlanmayacak. Gerekli alanlar işaretlendi</small>
+    <div class="d-flex my-3">
+        <p class="mb-0 mr-2">Puan:</p>
+        <div class="text-primary">
+            @Html.RadioButton("Puan", "1",new {id = "txtPuan", @class = "form-control"})
+            @Html.RadioButton("Puan", "2",new {id = "txtPuan", @class = "form-control"})
+            @Html.RadioButton("Puan", "3",new {id = "txtPuan", @class = "form-control"})
+            @Html.RadioButton("Puan", "4",new {id = "txtPuan", @class = "form-control"})
+            @Html.RadioButton("Puan", "5",new {id = "txtPuan", @class = "form-control"})
+
+
+
+        </div>
+    </div>
+    <form>
+        <div class="form-group">
+            <label for="message">Yorum</label>
+            @Html.TextArea("Yorum", "",new {id = "txtYorum",required=true , placeholder ="" , @class = "form-control"})
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+
+
+
+            @Html.Label("MusteriID", "",new {id = "txtMusteriID",required=true , placeholder ="" , @class = "form-control"})
+
+
+
+        </div>
+        <div class="form-group mb-0">
+
+            <button id="btnKayit" type="button" class="btn btn-primary #ffd333 btn-block" ProductID="@Model.Product.ProductId">Onayla</button>
+            @* <a href="/Urun/YorumOnay/@Model.Product.ProductId" class="btn btn-primary #ffd333 btn-block">Onayla</a>*@
+        </div>
+    </form>
+</div>
+
+<!--Yorum Yapma bitis-->

@@ -1,0 +1,97 @@
+﻿@*@using NorthwndApp.Model.Entities
+@model List<Musteriler>
+
+    @section customStyles{
+    <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+}
+
+@section customScripts{
+    <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+    <script>
+        $(function () {
+            $("#tblCategories").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "buttons": ["excel", "pdf"]
+            }).buttons().container().appendTo('#tblCustomer_wrapper .col-md-6:eq(0)');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            });
+        });
+    </script>
+}
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Sistemde Kayıtlı Musteriler</h3>
+            </div>
+
+            
+
+            <div class="card-body">
+                <table id="tblCustomer" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Firma</th>
+                            <th>Sahibi</th>
+                            <th>Tel</th>
+                            <th>Ülke</th>
+                            <th>Sehir</th>
+                            <th>Adres</th>
+                            <th>Mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var musteriler in Model)
+                    {
+                        <tr>
+                            <td>@musteriler.MusteriID</td>
+                            
+                            <td>
+                                @musteriler.FirmaAdi
+                            </td>
+                            <td>@musteriler.FirmaSahibi</td>
+                            <td>@musteriler.Telefon</td>
+                            <td>@musteriler.Ulke</td>
+                            <td>@musteriler.Sehir</td>
+                            <td>@musteriler.Adres</td>
+                            <td>@musteriler.Mail</td>
+                        
+
+
+                           
+                            <td>
+                                <button type="button" class="btn btn-danger btnDelete" musterilerID="@musteriler.MusteriID">Sil</button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+*@

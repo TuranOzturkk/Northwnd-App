@@ -1,0 +1,135 @@
+﻿@using NorthwndApp.Model.Entities
+@model List<Supplier>
+
+
+@section customStyles{
+    <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+}
+
+    @section customScripts{
+    <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+    <script>
+        $(function () {
+
+            $("#tblSupplier").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "buttons": ["pdf", "excel"]
+            }).buttons().container().appendTo('#tblSupplier_wrapper .col-md-6:eq(0)');
+
+
+
+            $(document).on("click", ".btnDelete", function () {
+                Swal.fire({
+                    title: 'Emin misiniz ?',
+                    text: "Bak silince geri alamazsın haaa!!!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Evet, sil!',
+                    cancelButtonText: "Vazgeç"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        var SupplierId = $(this).attr("SupplierId");
+
+                        $.ajax({
+                            url: "/Admin/Supplier/Delete",
+                            method: "post",
+                            dataType: "json",
+                            data: { id: SupplierId },
+                            success: function (response) {
+                                if (response.isSuccess) {
+                                    Swal.fire({
+                                        title: 'İşlem Başarılı',
+                                        text: "Kayıt Silindi",
+                                        icon: 'success',
+                                        confirmButtonColor: '#3085d6',
+                                        confirmButtonText: 'Tamam'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            window.location.reload();
+                                        }
+
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+
+
+        });
+            
+    </script>
+
+    }
+
+
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header bg-gray-dark color-palette">
+                <h3 class="card-title">Satıcılar</h3>
+            </div>
+
+
+
+            <div class="card-body">
+                <table id="tblSupplier" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Şirket Adı</th>
+                            <th>Sahibi</th>
+                            <th>Tel</th>
+                            <th>Ülke</th>
+                            <th>Şehir</th>
+                            <th>Adres</th>
+                            <th></th>
+                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var Supplier in Model)
+                    {
+                        <tr>
+                            <td>@Supplier.SupplierId</td>
+
+                            <td>
+                                @Supplier.CompanyName
+                            </td>
+                            <td>@Supplier.ContactName</td>
+                            <td>@Supplier.Phone</td>
+                            <td>@Supplier.Country</td>
+                            <td>@Supplier.City</td>
+                            <td>@Supplier.Address</td>
+                            
+                           
+
+
+
+
+                            <td>
+                                <button type="button" class="btn btn-danger btnDelete" SupplierId="@Supplier.SupplierId">Sil</button>
+                                @*<a href="/Musteriler/Delete/@Musteriler.MusteriID" class="btn btn-danger btnDelete" MusterilerID="@Musteriler.MusteriID">Sil</a>*@
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+      </div>
+    </div>
+</div>
+
+

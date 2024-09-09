@@ -1,0 +1,132 @@
+﻿@using NorthwndApp.Model.Entities
+@model Iletisim
+<script>
+    $(document).ready(function () {
+
+
+        $("#btnGonder").click(function () {
+            var formModel =
+            {
+
+                Adi: $("#txtAdi").val(),
+                Mail: $("#txtMail").val(),
+                Konu: $("#txtKonu").val(),
+                Mesa: $("#txtMesa").val(),
+               
+
+
+            };
+
+            var ajaxOptions =
+            {
+                url: "/Iletisim/Mesaj",
+                method: "post",
+                dataType: "json",
+                data: { model: formModel },
+                success: function (response) {
+                    if (response.isSuccess == true) {
+                        $("#divMessage").html("<div class='alert alert-success'>" + response.message + "</div>");
+                        Swal.fire({
+                            title: 'Mesajınız Gönderildi.',
+
+                            icon: 'success',
+                            confirmButtonColor: '#ffc107',
+                            confirmButtonText: 'Tamam'
+                        }).then((result) => {
+                            window.location.replace("/Home/Index");
+                        });
+                    }
+                    else {
+                        $("#divMessage").html("<div class='alert alert-danger'>" + response.message + "</div>");
+                    }
+                }
+            }
+
+
+
+
+
+            $.ajax(ajaxOptions);
+        });
+    });
+</script>
+
+
+<html lang="tr">
+
+<body>
+  
+
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a href="/Home/Index" class="breadcrumb-item text-dark">Anasayfa</a>
+                    <span class="breadcrumb-item active">İletişim</span>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
+
+
+    <!-- Contact Start -->
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">İletişim</span></h2>
+        <div id="divMessage"></div>
+        <div class="row px-xl-5">
+            <div class="col-lg-7 mb-5">
+                <div class="contact-form bg-light p-30">
+                    <div id="success"></div>
+                    <form name="sentMessage" id="contactForm" novalidate="novalidate">
+                        <div class="control-group">
+                           
+                            @Html.TextBox("Adi", "",new {id = "txtAdi",minlength="3" ,maxlength="15", placeholder = "Adınızı giriniz", @class = "form-control"})
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            
+                                   @Html.TextBox("Mail", "",new {id = "txtMail",minlength="8", placeholder = "Email Adresinizi giriniz", @class = "form-control"})
+                               
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            
+                                   @Html.TextBox("Konu", "",new {id = "txtKonu",minlength="5" ,maxlength="20", placeholder = "Konu Başlığı", @class = "form-control"})
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div class="control-group">
+                            
+                                      @Html.TextArea("Mesa", "",new {id = "txtMesa",minlength="20",maxlength="400",rows="8", placeholder = "Mesaj Alanı", @class = "form-control"})
+                               
+                            <p class="help-block text-danger"></p>
+                        </div>
+                        <div>
+                            <button id="btnGonder" class="btn btn-primary py-2 px-4" type="button">Mesajı Gönder</button>
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-5 mb-5">
+                <div class="bg-light p-30 mb-30">
+                    <iframe style="width: 100%; height: 250px;"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                    frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                </div>
+                <div class="bg-light p-30 mb-3">
+                    <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Malazgirt Mah. 1009.cadde, Ankara, TR</p>
+                    <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>tugran.tyz@gmail.com</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt text-primary mr-3"></i>+90 (534) 881 11 11</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Contact End -->
+
+
+  
+</body>
+
+</html>

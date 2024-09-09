@@ -1,0 +1,70 @@
+﻿@using NorthwndApp.MvcWebUI.Areas.Admin.Models
+@model MesajViewModel
+
+
+<div class="list-group col-md-8">
+
+    <div class="modal modal-tour position-static d-block  " tabindex="-1" role="dialog" id="modalTour">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded-4 ">
+                <div class="modal-body p-8">
+                    <h2 class="fw-bold mb-0" style="text-align:center">Müşteri Mesajı</h2>
+
+                    <ul class="d-grid gap-4 my-5 list-unstyled">
+                        <li class="d-flex gap-4">
+                            <svg class="bi text-muted flex-shrink-0" style="text-align:center" width="48" height="48"><use xlink:href="#grid-fill" /></svg>
+                            <div>
+                                <h5 class="mb-0">Adı</h5>
+                                Not into lists? Try the new grid view.
+                            </div>
+                        </li>
+                        <li class="d-flex gap-4">
+                            <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                            <div>
+                                <h5 class="mb-0">Mail</h5>
+                                Save items you love for easy access later.
+                            </div>
+                        </li>
+                        <li class="d-flex gap-4">
+                            <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                            <div>
+                                <h5 class="mb-0">Konu</h5>
+                                Save items you love for easy access later.
+                            </div>
+                        </li>
+                        <li class="d-flex gap-4">
+                            <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                            <div>
+                                <h5 class="mb-0">Mesaj</h5>
+                                Save items you love for easy access later.
+                            </div>
+                        </li>
+                        <h5 class="mb-5"></h5>
+                        <li class="d-flex gap-4 " style="text-align:center">
+
+                            <svg class="bi text-primary flex-shrink-0" width="48" height="48"><use xlink:href="#film" /></svg>
+                            <div>
+
+
+
+                                @Html.TextArea("Mesaj", "",new {id = "txtMesaj",rows="8", cols="45", placeholder = "Cevap Alanı...", @class = "form-control"})
+
+
+                                <font color="red">Cevaplarınızda Argo Kelime Kullanmayınız!.</font>
+
+                            </div>
+                        </li>
+                    </ul>
+
+                    <button type="button" class="btn btn-lg btn-primary mt-1 w-100" data-bs-dismiss="modal">Gönder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>

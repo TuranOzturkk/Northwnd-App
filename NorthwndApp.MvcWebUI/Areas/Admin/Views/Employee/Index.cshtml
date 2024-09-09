@@ -1,0 +1,202 @@
+﻿@using NorthwndApp.Model.Entities
+@model List<Employee>
+
+@section customStyles{
+    <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <style>
+        #loading {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            opacity: 0.7;
+            background-color: #000;
+            z-index: 99999;
+        }
+    </style>
+    }
+    @section customScripts{
+    <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+    
+
+    <script>
+        $(function () {
+            $("#tblEmployees").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "searching": true,
+                "ordering": true,
+                "info": false,
+                "buttons": ["pdf","excel"]
+            }).buttons().container().appendTo('#tblEmployees_wrapper .col-md-6:eq(0)');
+        });
+   
+        $(document).ready(function () {
+            $("#btnSave").click(function () {
+
+                $("#loading").show();
+
+                var formModel =
+                {
+                    FirstName: $("#txtFirstName").val(),
+                    LastName: $("#txtLastName").val(),
+                    Title: $("#ddlTitles").val(),
+                    UserName: $("#txtUserName").val(),
+                    Password: $("#txtPassword").val(),
+                    Email: $("#txtEmail").val()
+                }
+
+                $.ajax({
+                    url: "/Admin/Employee/Add",
+                    method: "post",
+                    datatype: "json",
+                    data: { model: formModel },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            $("#loading").hide();
+                            alert("Kayıt Başarılı");
+                        }
+                    }
+                });
+
+            });
+        });
+    </script>
+
+    }    
+
+<div class="col-md-12">
+    <div class="card card-primary">
+            <div class="card-header bg-gray-dark color-palette">
+            <h3 class="card-title ">Sistemde Kayıtlı Personeller</h3>
+        </div>
+
+        <br />
+            <button type="button" class="btn btn-warning bg-orange color-palette" data-toggle="modal" data-target="#divNewEmployeeForm">Yeni Personel Ekle</button>
+        <br />
+
+        <div class="card-body">
+                <table id="tblEmployees" class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                           
+                            
+                        <th>ID</th>
+                        <th>Ad</th>
+                        <th>Soyad</th>
+                        <th>Mail</th>
+                        <th>Gorevi</th>
+                       <th>Email Onayı</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+               
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.EmployeeId</td>
+                        <td>@employee.FirstName</td>
+
+                        <td>
+                            @employee.LastName
+                            
+                        </td>
+                        <td>@employee.Email</td>
+                         <td>@employee.Title</td>
+
+                      
+                        
+                        @if (employee.IsActive == true)
+                        {
+                            <td>ONAYLI</td>                     
+                        }
+                        else
+                        {
+                            <td>ONAYLANMADI</td>
+                        }
+
+                        
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="divNewEmployeeForm" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Yeni Personel Kayıt Formu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Adı</label>
+                            @Html.TextBox("FirstName", "", new { id = "txtFirstName", placeholder = "", @class = "form-control" })
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Soyadı</label>
+                            @Html.TextBox("LastName", "", new { id = "txtLastName", placeholder = "", @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Ünvan</label>
+                            <select id="ddlTitles" class="form-control">
+                                <option selected>Seçiniz...</option>
+                                <option value="Sales Representative">Sales Representative</option>
+                                <option value="Sales Manager">Sales Manager</option>
+                                <option value="Inside Sales Coordinator">Inside Sales Coordinator</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label>İşe Başlama Tarihi</label>
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Kullanıcı Adı</label>
+                            @Html.TextBox("UserName", "", new { id = "txtUserName", placeholder = "", @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Şifre</label>
+                            @Html.Password("Password", "", new { id = "txtPassword", placeholder = "", @class = "form-control" })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Email</label>
+                            @Html.TextBox("Email", "", new { id = "txtEmail", placeholder = "", @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Resim(Bunu size bıraktım)</label>
+                        <input id="fuEmployeePicture" type="file" />
+
+                    </div>
+
+                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="loading">
+    @*<img id="loading-image" src="path/to/ajax-loader.gif" alt="Loading..." />*@
+    <div class="spinner-border text-primary" role="status" style="margin-top:350px;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+

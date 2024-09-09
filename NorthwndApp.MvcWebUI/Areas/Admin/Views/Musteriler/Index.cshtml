@@ -1,0 +1,141 @@
+﻿@using NorthwndApp.Model.Entities
+@model List<Musteriler>
+
+@section customStyles{
+    <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <style>
+        #loading {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            opacity: 0.7;
+            background-color: #000;
+            z-index: 99999;
+        }
+    </style>
+}
+    @section customScripts{
+    <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+    <script>
+         $(function () {
+            $("#tblMusteriler").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "buttons": ["pdf","excel"]
+            }).buttons().container().appendTo('#tblMusteriler_wrapper .col-md-6:eq(0)');
+        });
+
+        $(document).on("click", ".btnDelete", function () {
+            Swal.fire({
+                title: 'Emin misiniz ?',
+                text: "Bak silince geri alamazsın haaa!!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: "Vazgeç"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var MusteriID = $(this).attr("MusteriID");
+
+                    $.ajax({
+                        url: "/Admin/Employee/Delete",
+                        method: "post",
+                        dataType: "json",
+                        data: { id: MusteriID },
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                Swal.fire({
+                                    title: 'İşlem Başarılı',
+                                    text: "Kayıt Silindi",
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Tamam'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        //sayfa kaydirma animasyonu
+                                        ////$('html, body').animate({ scrollTop: $("#divNewCategoryForm").offset().top},3000);
+                                        window.location.reload();
+                                    }
+                                });
+                                
+                            }
+                        }
+                    });
+                }
+            })
+        });
+    </script>
+   
+}
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header bg-gray-dark color-palette">
+                <h3 class="card-title">Sistemde Kayıtlı Musteriler</h3>
+            </div>
+            <div class="card-body">
+                <table id="tblMusteriler" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Adı</th>
+                            <th>Soyadı</th>
+                            <th>Tel</th>
+                            <th>Ülke</th>
+                            <th>Sehir</th>
+                            <th>Adres</th>
+                            <th>Mail</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var Musteriler in Model)
+                    {
+                        <tr>
+                            <td>@Musteriler.MusteriID</td>
+
+                            <td>
+                                @Musteriler.Adi
+                            </td>
+                            <td>@Musteriler.Soyadi</td>
+                            <td>@Musteriler.Telefon</td>
+                            <td>@Musteriler.Ulke</td>
+                            <td>@Musteriler.Sehir</td>
+                            <td>@Musteriler.Adres</td>
+                            <td>@Musteriler.Mail</td>
+
+                            <td>
+                                <button type="button" class="btn btn-danger btnDelete" MusteriID="@Musteriler.MusteriID">Sil</button>                               
+                            </td>                           
+
+                        </tr>
+                      }
+
+                   </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="loading">
+    @*<img id="loading-image" src="path/to/ajax-loader.gif" alt="Loading..." />*@
+    <div class="spinner-border text-primary" role="status" style="margin-top:350px;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

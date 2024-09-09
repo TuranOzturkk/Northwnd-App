@@ -1,0 +1,103 @@
+﻿
+<!DOCTYPE html>
+
+
+<html lang="tr">
+  
+    <head> 
+    
+   </head>
+
+       
+      <body class="hold-transition login-page">
+  
+       <div class="col-md-4" style="margin:auto">
+             
+          <div class="login-box">
+          
+             <div class="card card-outline card-primary">
+                 <div class="card-header text-center">
+                     
+                     <h3 class="h1">GİRİŞ</h3>
+                 </div>
+                 <div class="card-body">
+                     <form>
+                         <p class="login-box-msg">Kullanıcı Adı</p>
+                         <div class="input-group mb-3">
+                             <input id="txtkullaniciadi" type="text" class="form-control" placeholder="Kullanıcı Adı">
+                             <div class="input-group-append">
+                                 <div class="input-group-text">
+                                     <span class="fas fa-envelope"></span>
+                                 </div>
+                             </div>
+                         </div>
+                         <p class="login-box-msg">Parola</p>
+                         <div class="input-group mb-3">
+                             <input id="txtparola" type="password" class="form-control" placeholder="Şifre">
+                             <div class="input-group-append">
+                                 <div class="input-group-text">
+                                     <span class="fas fa-lock"></span>
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-8">
+                                 <div class="icheck-primary">
+                                    <input type="checkbox" id="RememberMe">
+                                     <label for="remember">
+                                         Beni Hatırla
+                                     </label>
+                                 </div>
+                             </div>
+                            
+                             <div class="col-4">
+                                <button id="btnLogIn" type="button" class="btn btn-primary btn-block">Giriş</button>
+                             </div>
+                           
+                         </div>
+                     </form>
+                 </div>
+               
+             </div>
+
+           </div>
+           
+       </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnLogIn").click(function () {
+                var vm =
+                {
+                    KullaniciAdi: $("#txtkullaniciadi").val(),
+                    Parola: $("#txtparola").val(),
+                    RememberMe: false
+                }
+
+                var ajaxOptions =
+                {
+                    url: "/MusteriGiris/LogIn",
+                    method: "post",
+                    datatype: "json",
+                    data: { model: vm },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            window.location.href = "/Home/Index";
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'İşlem Başarısız',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    }
+                }
+
+                $.ajax(ajaxOptions);
+            });
+        });
+    </script>
+
+</body>
+</html>

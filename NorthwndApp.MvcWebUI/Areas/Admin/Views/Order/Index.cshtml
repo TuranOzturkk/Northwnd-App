@@ -1,0 +1,269 @@
+﻿@using NorthwndApp.MvcWebUI.Areas.Admin.Models
+@model OrPrMuViewModel
+
+
+@section customStyles{
+    <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    <style>
+        #loading {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            opacity: 0.7;
+            background-color: #000;
+            z-index: 99999;
+        }
+    </style>
+}
+
+    @section customScripts{
+    <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+    <script>
+        $(function () {
+            $("#tblOrders").DataTable({
+                "responsive": true,
+                "lengthChange": true,
+                "autoWidth": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "buttons": ["pdf","excel"]
+            }).buttons().container().appendTo('#tblOrders_wrapper .col-md-6:eq(0)');
+        });
+
+
+
+        $(document).on("click", ".btnDelete", function () {
+            Swal.fire({
+                title: 'Emin misiniz ?',
+                text: "Bak silince geri alamazsın haaa!!!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Evet, sil!',
+                cancelButtonText: "Vazgeç"
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var OrderID = $(this).attr("OrderID");
+
+                    $.ajax({
+                        url: "/Admin/Order/Delete",
+                        method: "post",
+                        dataType: "json",
+                        data: { id: OrderID },
+                        success: function (response) {
+                            if (response.isSuccess) {
+                                Swal.fire({
+                                    title: 'İşlem Başarılı',
+                                    text: "Kayıt Silindi",
+                                    icon: 'success',
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'Tamam'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    }
+
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+      
+    </script>
+}
+
+
+    <div class="col-md-12">
+        <div class="card card-primary">
+            <div class="card-header bg-gray-dark color-palette">
+                <h3 class="card-title">Siparişler</h3>
+            </div>
+
+            @*<br />
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#divNewProductForm">Yeni Ürün Ekle</button>
+            <br />*@
+
+            <div class="card-body">
+                <table id="tblOrders" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Ülke</th>
+                            <th>Şehir</th>
+                            <th>Adres</th>
+
+                            <th>Fiyat</th>
+                            <th>Sipariş Oluşturma Tarihi</th>
+                            <th>Kargoya Veriliş Tarihi</th>
+
+                            <th>Ad Soyad</th>
+                            <th>Tel</th>
+                            <th>ID / ürün Adı</th>
+                            <th></th>
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+
+                            <td>@order.OrderID</td>
+                            <td>@order.ShipCountry</td>
+                            <td>@order.ShipCity</td>
+                            <td>@order.ShipAddress</td>
+
+                            <td>@order.Freight</td>
+                            <td>@order.OrderDate</td>
+                            <td>@order.ShippedDate</td>
+
+                           
+                        
+
+                            @foreach (var musteriler in Model.Musteriler)
+                            {
+                                if (order.MusteriSiparisID == musteriler.MusteriID)
+                                {
+                                   
+                                    <td>@musteriler.Adi  @musteriler.Soyadi</td>
+                                    
+                                    <td>@musteriler.Telefon</td>
+                                
+                                }
+                                if (order.MusteriSiparisID == null)
+                                {
+
+                                    <td>boss</td>
+                                }
+                               
+
+
+                            }
+
+                            @foreach (var product in Model.Products)
+                            {
+                                
+                                
+                                if (order.ProductSiparisID == product.ProductId)
+                                {
+                                    <td>@product.ProductId   @product.ProductName</td>
+
+                                }
+                                if (order.ProductSiparisID == null)
+                                {
+                                    <td>boss</td>
+                                }
+                                
+
+                            }
+
+                           
+                            <td>
+                                <button type="button" class="btn btn-danger btnDelete" OrderID="@order.OrderID">Sil</button>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="loading">
+    @*<img id="loading-image" src="path/to/ajax-loader.gif" alt="Loading..." />*@
+    <div class="spinner-border text-primary" role="status" style="margin-top:350px;">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>
+
+
+@*
+<div class="modal fade" id="divNewCategoryForm" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Yeni Kategori Kayıt Formu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Kategori Adı</label>
+                            @Html.TextBox("CategoryName", "", new { id = "txtCategoryName", placeholder = "Kategori Adı", @class = "form-control" })
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Açıklaması</label>
+                            @Html.TextArea("Description", "", new { id = "txtDescription", placeholder = "Kategori Açıklaması", @class = "form-control", rows = 5, cols = 5 })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Resim</label>
+                        <input id="fuCategoryPicture" type="file" />
+
+                    </div>
+
+                    <button id="btnSave" type="button" class="btn btn-primary">Kaydet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+*@
+@*
+<div class="modal fade" id="divEditCategoryForm" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Yeni Kategori Kayıt Formu</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Kategori Adı</label>
+                            @Html.TextBox("CategoryName", "", new { id = "txtCategoryNameEdit", placeholder = "Kategori Adı", @class = "form-control" })
+
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Açıklaması</label>
+                            @Html.TextArea("Description", "", new { id = "txtDescriptionEdit", placeholder = "Kategori Açıklaması", @class = "form-control", rows = 5, cols = 5 })
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="inputState">Resim</label>
+                            <img id="imgCategoryImageEdit" src="" style="width:300px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAddress">Resim</label>
+                        <input id="fuCategoryPictureEdit" type="file" />
+
+                    </div>
+
+                    <button id="btnSaveEdit" type="button" class="btn btn-primary">Güncelle</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>*@

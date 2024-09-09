@@ -1,0 +1,315 @@
+﻿
+@using NorthwndApp.Model.Entities
+@model List<Iletisim>
+
+<style>
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+     .gizle{
+       display:none;
+        }
+
+    .saga {
+        margin: auto;
+    }
+
+    .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+    }
+
+    .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+    }
+
+    .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+    }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+
+    .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+
+
+    .b-example-divider {
+        height: 3rem;
+        background-color: rgba(0, 0, 0, .1);
+        border: solid rgba(0, 0, 0, .15);
+        border-width: 1px 0;
+        box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+    }
+
+    .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+    }
+
+    .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+    }
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+        .back{
+            background-color: #2B2B2B;
+        }
+
+    .modal-sheet .modal-dialog {
+        width: auto;
+        transition: bottom .75s ease-in-out;
+    }
+
+    .modal-sheet .modal-footer {
+        padding-bottom: 2rem;
+    }
+
+    .modal-alert .modal-dialog {
+        width: auto;
+    }
+
+    .modal-tour .modal-dialog {
+        width: auto;
+    }
+</style>
+   
+
+
+    @section customStyles{
+    <link rel="stylesheet" href="/AdminArea/plugins/toastr/toastr.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+    }
+    @section customScripts{
+    <script src="/AdminArea/plugins/toastr/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+     <script>
+          $(function () {
+              $(document).on("click", ".btnEdit", function () {
+                  var IletisimID = $(this).attr("IletisimID");
+                debugger;
+                  $.ajax({
+                      method: "get",
+                      dataType: "json",
+                      url: "/Admin/Home/Get",
+                      data: { id: IletisimID },
+                      success: function (response) {
+                          let iletisim = jQuery.parseJSON(response);
+                          console.log(iletisim);
+    
+                          $.each(iletisim, (index, value) => {
+                              $("#txtMailEdit").val(iletisim.Mail);
+                              $("#txtIletisimIDEdit").val(iletisim.IletisimID);
+                              $("#txtAdiEdit").val(iletisim.Adi);
+                              $("#txtKonuEdit").val(iletisim.Konu);
+                              $("#txtMesaEdit").val(iletisim.Mesa);
+                          });
+                        $("#divNewiletisimForm").modal("show");
+                      }
+                  });
+              });
+
+
+
+              $(document).on("click", ".btnSaveEdit", function () {
+               
+                var formData = new FormData();
+
+                formData.append("IletisimID", $("#txtIletisimIDEdit").val());
+                formData.append("Mail", $("#txtMailEdit").val());
+                formData.append("Cevap", $("#txtCevap").val());
+                
+                formData.append("Adi", $("#txtAdiEdit").val());
+                formData.append("Mesa", $("#txtMesaEdit").val());
+                         
+               
+
+                var ajaxOptions =
+                 {
+                     url: "/Admin/Home/Update",
+                     method: "post",
+                     dataType: "json",
+                     contentType: false,
+                     processData: false,
+                     data: formData,
+                     //data: iletisim,
+                     success: function (response) {
+                         if (response.isSuccess) {
+             
+                          $("#divNewiletisimForm").modal("hide");
+               
+                             toastr.success(response.message);
+                            
+                         }
+                         else {
+                             Swal.fire({
+                                 title: 'İşlem Başarısız',
+                                 text: response.message,
+                                 icon: 'error',
+                                 confirmButtonColor: '#3085d6',
+                                 confirmButtonText: 'Tamam'
+                             })
+                         }
+                     }
+                 }
+             
+                 $.ajax(ajaxOptions);
+              });
+    
+          });
+    
+     </script>
+   
+     }
+    
+
+     
+    <div class="list-group w-auto col-md-8 saga">
+            <div id="divMessage"></div>
+        @foreach (var iletisim in Model)
+        {
+          @if (iletisim.Active == true)
+          {
+            <button IletisimID="@iletisim.IletisimID" class="list-group-item list-group-item-action d-flex gap-3 py-3 btnEdit" aria-current="true">
+
+                
+                <div class="d-flex gap-2 w-100 justify-content-between">
+                        <div>
+                            <h4 class="mb-0">@iletisim.Mail</h4>
+                            <h6 class="mb-0">Adı: @iletisim.Adi</h6>
+                            <h5 class="mb-0 opacity-75">Konu: @iletisim.Konu</h5>
+                            
+                        </div>
+                        <small class="opacity-50 text-nowrap">05.05.2023</small>
+                    </div>
+                </button>
+          }
+            
+        }
+
+    </div>
+
+
+     <div id="divNewiletisimForm" class="modal fade divNewiletisimForm" data-backdrop="static">
+         <div class="modal modal-tour position-static d-block" tabindex="-1" role="dialog">
+                 <div class="modal-dialog" role="document">
+                     <div class="modal-content rounded-4">
+                         <div class="modal-body p-8">
+                             <h2 class="fw-bold mb-0" style="text-align:center">Müşteri Mesajı</h2>
+     
+     
+                          
+                                  <ul class="d-grid gap-4 my-5 list-unstyled">
+                                     <li class="d-flex gap-4">
+                                         <svg class="bi text-muted flex-shrink-0" style="text-align:center" width="48" height="48"><use xlink:href="#grid-fill" /></svg>
+                                         <div>
+                                             <h5 class="mb-0">Adı</h5>
+
+                                @Html.TextBox("Adi", "", new {id="txtAdiEdit", placeholder = "",disabled = "disabled" ,  @class = "form-control"})
+                                     
+                                 </div>
+                                     </li>
+                                     <li class="d-flex gap-4">
+                                         <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                         <div>
+     
+                                             <h5 class="mb-0">Mail</h5>
+
+                                @Html.TextBox("Mail", "", new { id = "txtMailEdit",disabled = "disabled", placeholder = "", @class = "form-control" })
+                                            
+                                         </div>
+                                     </li>
+                                     <li class="d-flex gap-4">
+                                         <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                         <div>
+                                             <h5 class="mb-0">Konu</h5>
+                                             @Html.TextBox("Konu", "", new { id = "txtKonuEdit",disabled = "disabled", placeholder = "", @class = "form-control", rows = 5, cols = 5 })
+                                         </div>
+                                     </li>
+                                     <li class="d-flex gap-4" style="text-align:center">
+                                         <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+     
+                                         <div>
+                                             <h5 class="d-flex gap-4" style="text-align:center">Mesaj</h5>
+                                             @Html.TextArea("Mesa", "", new { id = "txtMesaEdit",rows="3", cols="45",disabled = "disabled", placeholder = "", @class = "form-control"})
+     
+                                         </div>
+                                          <div class=" gizle">
+                                             <h5 class="d-flex gap-4" style="text-align:center">active</h5>
+
+
+                                           @Html.TextBox("IletisimID", "", new { id = "txtIletisimIDEdit", placeholder = "",disabled = "disabled", @class = "form-control"})
+                                         </div>
+                                     </li>
+                                     <h5 class="mb-5"></h5>
+                                     <li class="d-flex gap-4 " style="text-align:center">
+     
+                                         <svg class="bi text-primary flex-shrink-0" width="48" height="48"><use xlink:href="#film" /></svg>
+                                         <div>
+     
+                                             @Html.TextArea("Cevap", "",new {id = "txtCevap",rows="8", cols="45", placeholder = "Cevap Alanı...", @class = "form-control"})
+     
+                                             <font color="red">Cevaplarınızda Argo Kelime Kullanmayınız!.</font>
+                                         </div>
+                                     </li>
+                                 </ul>
+                                 <button type="button" class="btn btn-lg  mt-1 w-100 bg-orange btnSaveEdit" data-bs-dismiss="modal">Gönder</button>
+                          
+                         </div>
+                     </div>
+                 </div>
+             </div>
+      </div>
+
+ 

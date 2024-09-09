@@ -1,0 +1,318 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <title>TEDARIK</title>
+    <link rel="Website icon" type="png" href="/img/Satici.png" />
+    <link href="/css/bootstrap.min.css  " rel="stylesheet">
+    <script src="/AdminArea/plugins/jquery/jquery.min.js"></script>
+    <script src="/AdminArea/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/AdminArea/dist/js/adminlte.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+
+
+    
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+     
+
+      .b-example-divider {
+        height: 3rem;
+                  background-color: #212121;
+             color: #F9D340;
+         
+           
+        }
+        .top{
+             
+         text-align: center;
+         top: 20%;
+         position: absolute;
+       
+        right: 50%;
+        bottom: 200%;
+        left: 40%;
+      
+        }
+        .buton{
+                color: #F9D340;
+                font-size:150%;
+        }
+          .butonkayit{
+                 
+                  font-size:150%;
+          }
+
+        .b-example-vr {
+        flex-shrink: 0;
+        width: 1.5rem;
+        height: 100vh;
+      }
+
+      .bi {
+        vertical-align: -.125em;
+        fill: currentColor;
+      }
+
+      .nav-scroller {
+        position: relative;
+        z-index: 2;
+        height: 2.75rem;
+        overflow-y: hidden;
+      }
+
+      .nav-scroller .nav {
+        display: flex;
+        flex-wrap: nowrap;
+        padding-bottom: 1rem;
+        margin-top: -1px;
+        overflow-x: auto;
+        text-align: center;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+      }
+      .kayit{
+               color: gray;
+                text-align: left;
+                 
+               
+        }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet">
+  </head>
+
+<body class="text-center b-example-divider">
+
+    <main class="top col-2">
+        <form>
+            <img class="mb-4 m-auto" src="/img/Blackvariant-Button-Ui-Requests-15-Lego-Starwars.png" alt="" width="200" height="200">
+            <h1 class="h3 mb-3 fw-normal">Sanal Mağaza Paneli</h1>
+
+            <div class="form-floating">
+                <label for="floatingInput">Kullanıcı Adı</label>
+                <input id="txtUserName" type="text" class="form-control" placeholder="Kullanıcı Adı">
+               
+            </div>
+          <div class="form-floating">
+                <label for="floatingPassword">Parola</label>
+                <input id="txtPassword" type="password" class="form-control" placeholder="Parola">
+               
+            </div>
+        
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me"> Beni Hatırla
+            </label>
+          </div>
+            <button id="btnLogIn" class=" btn  btn-dark bg-yellow color-palette buton" type="submit">Giriş</button>
+            
+            <button type="button" class="btn  bg-gray  buton" data-toggle="modal" data-target="#divNewKayitForm">Kayıt</button>
+
+            <div id="divMessage"></div>
+        </form>
+      </main>
+
+    <div id="divNewKayitForm" class="modal fade divNewKayitForm" data-backdrop="static">
+        <div class="modal modal-tour position-static d-block" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content rounded-4">
+                    <div class="modal-body p-8">
+                       
+
+                        <ul class="d-grid gap-4 my-5 list-unstyled kayit">
+                            <li class="d-flex gap-4">
+                                <div id="divMessage"></div>
+                                <svg class="bi text-muted flex-shrink-0" style="text-align:center" width="48" height="48"><use xlink:href="#grid-fill" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Şirket Adı</h5>
+
+                                    @Html.TextBox("CompanyName", "", new {id="txtCompanyNameEdit", placeholder = "",  @class = "form-control"})
+
+                                </div>
+                            </li>
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+
+                                    <h5 class="mb-0" style="font-size: 15px;">Şirket Sahibi</h5>
+
+                                    @Html.TextBox("ContactName", "", new { id = "txtContactNameEdit", placeholder = "", @class = "form-control" })
+
+                                </div>
+                            </li>
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+
+                                    <h5 class="mb-0" style="font-size: 15px;">Mail</h5>
+
+                                    @Html.TextBox("Mail", "", new { id = "txtMailEdit", placeholder = "", @class = "form-control" })
+
+                                </div>
+                            </li>
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Telefon</h5>
+                                    @Html.TextBox("Phone", "", new { id = "txtPhoneEdit", placeholder = "(___) ___ __ __", @class = "form-control" })
+                                </div>
+                            </li>   
+                           
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Şehir</h5>
+                                    @Html.TextBox("City", "", new { id = "txtCityEdit", placeholder = "", @class = "form-control"})
+                                </div>
+                            </li>
+                             <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Ülke</h5>
+                                    @Html.TextBox("Country", "", new { id = "txtCountryEdit", placeholder = "", @class = "form-control" })
+                                </div>
+                            </li>
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Adres</h5>
+                                    @Html.TextArea("Address", "", new { id = "txtAddressEdit", placeholder = "Mahalle/Cadde/Sokak", @class = "form-control", rows = 2, cols = 45   })
+                                </div>
+                            </li>
+                           
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Kullanıcı Adı</h5>
+                                    @Html.TextBox("KullaniciAdi", "", new { id = "txtKullaniciAdiEdit", placeholder = "", @class = "form-control"})
+                                </div>
+                            </li>
+                            <li class="d-flex gap-4">
+                                <svg class="bi text-warning flex-shrink-0" width="48" height="48"><use xlink:href="#bookmark-star" /></svg>
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 15px;">Parola</h5>
+                                    @Html.TextBox("KullaniciParola", "", new { id = "txtKullaniciParolaEdit",type="password", placeholder = "", @class = "form-control"})
+                                </div>
+                            </li>
+                            
+
+
+
+                        </ul>
+                        <font color="red">Bu bir başvuru formudur personelimiz 24 saat içerisinde sizinle iletişime geçerek gerekli işlemler hakkında bilgi verecektir... Bu süre zarfında giriş yapamazsınız !</font>
+                        <h5 class="mb-5"></h5>
+                        <button id="btnKayit" class=" btn  btn-dark bg-yellow color-palette buton btnKayit" data-bs-dismiss="modal" type="submit">Onayla</button>
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#btnLogIn").click(function () {
+                var vm =
+                {
+                    KullaniciAdi: $("#txtUserName").val(),
+                    KullaniciParola: $("#txtPassword").val(),
+                    RememberMe: false
+                }
+
+                var ajaxOptions =
+                {
+                    url: "/Satici/Login/Giris",
+                    method: "post",
+                    datatype: "json",
+                    data: { model: vm },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            window.location.href = "/Satici/Istatistikler/Index";
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'Kullanıcı Adınız veya Parolanız Hatalı.',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    }
+                }
+
+                $.ajax(ajaxOptions);
+            });
+
+            $("#btnKayit").click(function () {
+
+                var formData = new FormData();
+
+
+
+                formData.append("CompanyName", $("#txtCompanyNameEdit").val());
+                formData.append("ContactName", $("#txtContactNameEdit").val());
+                formData.append("Mail", $("#txtMailEdit").val());
+                formData.append("Phone", $("#txtPhoneEdit").val());
+                formData.append("Address", $("#txtAddressEdit").val());
+                formData.append("City", $("#txtCityEdit").val());
+                formData.append("Country", $("#txtCountryEdit").val());
+                formData.append("KullaniciAdi", $("#txtKullaniciAdiEdit").val());
+                formData.append("KullaniciParola", $("#txtKullaniciParolaEdit").val());
+
+                var ajaxOptions =
+                {
+                    url: "/Satici/Login/Kayitol",
+                    method: "post",
+                    contentType: false,
+                    processData: false,
+                    datatype: "json",
+                    data: formData,
+                    success: function (response) {
+                        if (response.isSuccess) {
+
+                            $("#divNewKayitForm").modal("hide");
+
+                            $("#divMessage").html("<div class='alert alert-success'>" + response.message + "</div>");
+                            window.location.reload();
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'İşlem Başarısız',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Tamam'
+                            })
+                        }
+                    }
+                }
+
+                $.ajax(ajaxOptions);
+
+
+            });
+
+        });
+    </script>
+
+
+  
+
+</body>
+</html>

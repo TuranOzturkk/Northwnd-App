@@ -1,0 +1,120 @@
+﻿@{ Layout = null;}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+
+    <meta charset="utf-8 ">
+    <meta name="viewport" content="width=device-width, initial-scale=1 ">
+    <title>ADMIN</title>
+    <link rel="Website icon" type="png" href="/img/admin.png" />
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/AdminArea/plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="/AdminArea/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/AdminArea/dist/css/adminlte.min.css">
+    <link href="~/lib/sweetalert2/dist/sweetalert2.css" rel="stylesheet" />
+
+
+    
+
+</head>
+
+<body class="hold-transition login-page bg-gray-dark color-palette">
+    <div class="login-box bg-gray-dark color-palette">
+        <!-- /.login-logo -->
+        <div class="card card-outline card-primary bg-gray-dark color-palette">
+            <div class="card-header text-center bg-gray-dark color-palette">
+                <a href="/Admin" class="h1 bg-gray-dark color-palette"><b>Sistem</b> GİRİŞ</a>
+            </div>
+            <div class="card-body">
+                <p class="login-box-msg">Panele girmek için aşağıdaki formu kullanınız</p>
+
+                <form>
+                    <div class="input-group mb-3">
+                        <input id="txtUserName" type="text" class="form-control" placeholder="Kullanıcı Adı">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input id="txtPassword" type="password" class="form-control" placeholder="Şifre">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row bg-gray-dark color-palette">
+                        <div class="col-8">
+                            <div class="icheck-primary bg-gray-dark color-palette">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">
+                                    Beni Hatırla
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-4 bg-gray-dark color-palette">
+                            <button id="btnLogIn" type="button" class="btn btn-primary btn-block bg-gray-dark color-palette">Giriş</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </div>
+    <!-- /.login-box -->
+    <!-- jQuery -->
+    <script src="/AdminArea/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="/AdminArea/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/AdminArea/dist/js/adminlte.min.js"></script>
+    <script src="~/lib/sweetalert2/dist/sweetalert2.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnLogIn").click(function () {
+                var vm =
+                {
+                    UserName: $("#txtUserName").val(),
+                    Password: $("#txtPassword").val(),
+                    RememberMe: false
+                }
+
+                var ajaxOptions =
+                {
+                    url: "/Admin/Authentication/LogIn",
+                    method: "post",
+                    datatype: "json",
+                    data: { model: vm },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            window.location.href = "/Admin/Home/Index";
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'İşlem Başarısız',
+                                text: response.message,
+                                icon: 'error'
+                            });
+                        }
+                    }
+                }
+
+                $.ajax(ajaxOptions);
+            });
+        });
+    </script>
+
+</body>
+</html>

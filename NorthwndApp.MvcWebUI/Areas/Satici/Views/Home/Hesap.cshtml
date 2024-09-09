@@ -1,0 +1,190 @@
+﻿@using NorthwndApp.Model.Entities
+@model Supplier
+
+<!DOCTYPE html>
+<html lang="tr">
+
+  <head>
+    <title>CSS Büyük-Küçük harf</title>
+    <meta charset="utf-8">
+    <style type="text/css">
+             #loading {
+                position: fixed;
+                display: none;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                text-align: center;
+                opacity: 0.7;
+                background-color: #000;
+                z-index: 99999;
+            }
+        .buyukHarf {
+            text-transform: uppercase;
+        }
+
+        .kucukHarf {
+            text-transform: lowercase;
+        }
+
+        .ilkHarfBuyuk {
+            text-transform: capitalize;
+        }
+
+        .gizle {
+            display: none;
+        }
+        
+        .rb-box {
+    width: 80%;
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 1.3em;
+    background: #ffff;
+    border-radius: .75em;
+    -webkit-filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+    filter: drop-shadow(1px 2px 5px rgba(0,0,0,.3));
+    box-shadow:
+              0 2px 2px rgba(255, 206, 71,.1),
+          0 0px 5px rgba(255, 206, 71,.5),
+              0 0px 4px rgba(255, 206, 71,.0),
+              0 5px 20px rgba(255, 206, 71,.90),
+              0 15px 50px rgba(255, 206, 71,.75),
+          inset 0 0 15px rgba(255, 206, 71,.05);
+
+      }
+        .b-example-divider {
+        height: 3rem;
+                  background-color: #F9D340;
+             color: #F9D340;
+        }
+         .b-example-divider {
+           
+                      background-color: #212121;
+                 color: #F9D340;
+
+
+            }
+                .buttonort {
+            padding: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .deneme{
+          margin-left: 42%;
+          margin-top: 10%;    
+        }
+        
+    </style>
+
+        <script>
+            $(function () {
+              $(document).on("click", ".btnguncelle", function () {
+                var formData = new FormData();
+                formData.append("SupplierId", $("#txtSupplierIdEdit").val());
+                formData.append("Country", $("#txtCountryEdit").val());
+                formData.append("City", $("#txtCityEdit").val());
+                formData.append("Address", $("#txtAddressEdit").val());
+                formData.append("Phone", $("#txtPhoneEdit").val());
+                formData.append("Mail", $("#txtMailEdit").val());
+                var ajaxOptions =
+                {
+                    url: "/Satici/Home/Update",
+                    method: "post",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            Swal.fire({
+                                title: 'İşlem Başarılı',
+                                text: "Bilgiler Güncellendi.",
+                                icon: 'success',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Tamam'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+
+
+                                     toastr.success(response.message);
+                                     setTimeout(function () {
+                                         window.location.reload(1);
+                                     }, 1000);
+                                   
+                            });                         
+                        }
+                        else {
+                            Swal.fire({
+                                title: 'İşlem Başarısız',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Tamam'
+                            })
+                        }
+                    }
+                }
+                $.ajax(ajaxOptions);
+              });
+            });
+        </script>
+   </head>
+  <body>
+    <div  class="container-fluid">
+        <div class="row px-xl-12 rb-box ">
+            <div class="col-lg-8" style="margin:auto">
+                <h4 class=" position-relative text-uppercase mb-3"><span class=" pr-3">Hesap Bilgisi</span></h4>
+                <div class="bg-light  p-30 mb-5">
+                    <div class="row ">
+                            <div class="gizle">
+                                <h5 class="d-flex gap-4" style="text-align:center">active</h5>
+                                @Html.TextBox("SupplierId", @Model.SupplierId, new { id = "txtSupplierIdEdit", placeholder = "",disabled = "disabled", @class = "form-control"})
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Şirket Adı</label>
+                                <h6 class="buyukHarf">@Model.CompanyName</h6>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Sahibi</label>
+                                <h6 class="buyukHarf">@Model.ContactName</h6>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Ülke</label>                              
+                                @Html.TextBox("Country", @Model.Country, new {id="txtCountryEdit", disabled = "disabled", placeholder = "",  @class = "form-control buyukHarf"})
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Şehir</label>
+                                @*<input class="form-control" type="text" placeholder="@Model.City">*@
+                                @Html.TextBox("City", @Model.City, new {id="txtCityEdit", placeholder = "",  @class = "form-control buyukHarf"})
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Adres</label>
+                               @* <textarea class="form-control" rows=4 type="text" placeholder="@Model.Address"></textarea>*@
+                                @Html.TextArea("Address", @Model.Address, new {id="txtAddressEdit",rows="4", placeholder = "",  @class = "form-control"})
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>Tel</label>
+                               @* <input class="form-control" type="tel" minlength="10" maxlength="10" placeholder="@Model.Phone">*@
+                                @Html.TextBox("Phone", @Model.Phone, new {id="txtPhoneEdit",type="tel", placeholder = "", minlength="10", maxlength="10" , @class = "form-control"})
+                                        <h1></h1>
+                                <label>Mail</label>
+                              @*  <input class="form-control" type="text" placeholder="@Model.Mail">*@
+                                @Html.TextBox("Mail", @Model.Mail, new {id="txtMailEdit", placeholder = "",  @class = "form-control"})
+                            </div>
+                            <div class="deneme">
+                                <button class="btn btn-primary py-1 px-12 btnguncelle" type="button">Güncelle</button>
+                            </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+     
+    </div>
+  </body>
+
+</html>

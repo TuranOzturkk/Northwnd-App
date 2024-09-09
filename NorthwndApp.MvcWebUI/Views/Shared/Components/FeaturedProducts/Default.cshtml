@@ -1,0 +1,51 @@
+﻿@using NorthwndApp.Model.Dtos
+@using System.Globalization
+@model List<FeaturedProductDto>
+
+  
+
+<div class="container-fluid pt-1 pb-3">
+    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Ürünler</span></h2>
+    <div class="row px-xl-5">
+        @foreach (var product in Model)
+        {
+            <div class="col-lg-3 col-md-2 col-sm-2 pb-1">
+                <div class="product-item bg-light mb-4">
+                    <div class="product-img position-relative overflow-hidden">
+                        <img class="img-fluid w-100" src='@("/AdminArea/CustomImages/" + product.Fotografbir)' style="width:500px!important;height:300px!important;" alt="">
+                        <div class="product-action">
+                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                            <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
+                           
+                            <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                    <div class="text-center py-4">
+
+                        <button type="button" class="btn btn-black btnEdit" ProductID="@product.ProductID">@product.ProductName</button>
+                            
+                        @*<a class="h6 text-decoration-none text-truncate" href="" ProductID="@product.ProductID">@product.ProductName</a>*@
+                        <div class="text-center py-12">
+                        
+                        </div>
+
+                  
+
+                        <div class="d-flex align-items-center justify-content-center mt-2">
+                            <h5>@product.UnitPriceForSale.Value.ToString("C2")</h5><h6 class="text-muted ml-2"><del>@product.UnitPrice.Value.ToString("C2")</del></h6>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-center mb-1">
+                            <small class="fa fa-star text-success mr-1"></small>
+                            <small class="fa fa-star text-success mr-1"></small>
+                            <small class="fa fa-star text-success mr-1"></small>
+                            <small class="fa fa-star text-success mr-1"></small>
+                            <small class="fa fa-star text-danger mr-1"></small>
+                            <small>(@product.CommentCount)</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

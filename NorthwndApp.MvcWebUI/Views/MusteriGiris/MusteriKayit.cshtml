@@ -1,0 +1,164 @@
+﻿@using NorthwndApp.Model.Entities
+@model List<Musteriler>
+
+
+
+<style>
+        #loading {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            text-align: center;
+            opacity: 0.7;
+            background-color: #000;
+            z-index: 99999;
+        }
+
+   
+    
+    </style>
+    
+
+   
+ <script>
+        $(document).ready(function () {
+            
+
+          $("#btnKayit").click(function () {
+            var formModel =
+              {
+                  
+                  Adi: $("#txtAdi").val(),
+                  Soyadi: $("#txtSoyadi").val(),
+                  Mail: $("#txtMail").val(),
+                  Telefon: $("#txtTelefon").val(),
+                  Sehir: $("#txtSehir").val(),
+                  Ulke: $("#txtUlke").val(),
+                  Adres: $("#txtAdres").val(),
+                  KullaniciAdi: $("#txtKullaniciAdi").val(),
+                  Parola: $("#txtParola").val(),
+                  ParolaSorgu: $("#txtParolaSorgu").val()
+
+
+            };
+        
+              var ajaxOptions =
+              {
+                  url: "/MusteriGiris/Add",
+                  method: "post",
+                  dataType: "json",
+                data: { model: formModel },
+                  success: function (response) {
+                      if (response.isSuccess == true) {
+                          $("#divMessage").html("<div class='alert alert-success'>" + response.message + "</div>");
+                        Swal.fire({
+                            title: 'Kaydınız Yapıldı',
+
+                            icon: 'success',
+                            confirmButtonColor: '#ffc107',
+                            confirmButtonText: 'Tamam'
+                        }).then((result) => {
+                            window.location.replace("/MusteriGiris/LogIn");
+                        });
+                    }
+                    else{
+                        $("#divMessage").html("<div class='alert alert-danger'>" + response.message + "</div>");
+                    }
+                  }
+              }
+        
+        
+        
+        
+        
+              $.ajax(ajaxOptions);
+          });
+        });
+</script>
+
+       
+
+<div class="container-fluid">
+
+        <div class="row px-xl-8">
+            <div class="col-lg-4" style="margin:auto">
+                <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Kayıt Ekranı</span></h5>
+                <div class="bg-light p-30 mb-5">
+                    <div class="row">
+                    <div class="col-md-12 form-group">
+                    <div id="divMessage"></div>
+                    </div>
+
+                         <div class="col-md-6 form-group">
+                            <label>E-mail</label>
+
+                            @Html.TextBox("Mail", "",new {id = "txtMail",required=true , placeholder = "Email adresinizi giriniz", @class = "form-control"})
+                            @*@Html.TextBox("txtMail".Length > 10 ? item.Text.Substring(0,10) : item.Text)*@
+                      
+                       
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label>Telefon No</label>
+                     
+                        @Html.TextBox("Telefon", "",new {id = "txtTelefon",required=true , type="tel", minlength="10",maxlength="10", placeholder = "(___)___ __ __", @class = "form-control"})
+                        </div>
+                     
+                     
+                        <div class="col-md-6 form-group ">
+                            <label>Adi</label>
+                     
+                        @Html.TextBox("Adi", "",new {id = "txtAdi",minlength="3",required=true ,maxlength="12", placeholder = "Adınızı giriniz", @class = "form-control", })
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Soyad</label>
+                        @Html.TextBox("Soyadi", "",new {id = "txtSoyadi",minlength="3",required=true ,maxlength="20", placeholder = "Soyadınızı giriniz", @class = "form-control"})
+                        </div>
+                     
+                        <div class="col-md-6 form-group">
+                            <label>Sehir</label>
+                        @Html.TextBox("Sehir", "",new {id = "txtSehir",minlength="3",maxlength="12", placeholder = "Şehir giriniz", @class = "form-control"})
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Ülke</label>
+                        @Html.TextBox("Ulke", "",new {id = "txtUlke",minlength="3",maxlength="15", placeholder = "Ülke giriniz", @class = "form-control"})
+                        </div>
+                     
+                        <div class="col-md-12 form-group">
+                            <label for="message">Adres</label>
+                        @Html.TextArea("Adres", "",new {id = "txtAdres",minlength="10",maxlength="80", placeholder = "Mahalle/Cadde/Sokak/Semt", @class = "form-control"})
+                     
+                        </div>
+
+                            <div class="col-md-12 form-group">
+                                <label>Kullanıcı Adı</label>
+                            @Html.TextBox("KullaniciAdi", "",new {id = "txtKullaniciAdi",required=true ,minlength="5",maxlength="15", placeholder = "", @class = "form-control"})
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label>Parola</label>
+                        @Html.Password("Parola", "",new {id = "txtParola",minlength="8",required=true , placeholder = "Şifre en az 12 karakterli olmalı", @class = "form-control"})
+                     
+                            </div>
+                           <div class="col-md-12 form-group">
+                               <label>Parola Tekrarı</label>
+                               @Html.Password("ParolaSorgu", "",new {id = "txtParolaSorgu",minlength="8",required=true , placeholder = "Parola tekrarı", @class = "form-control"})
+                          
+                           </div>
+                          
+                            <div class="col-12">
+                        <button id="btnKayit" type="button" class="btn btn-primary #ffd333 btn-block">Kayıt</button>
+                            </div>
+                  
+                    
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+</div>
+<div id="divMessage"></div>
+
+          
